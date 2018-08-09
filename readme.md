@@ -1,4 +1,6 @@
 
+# 目录结构
+
 bin
     命令行
 
@@ -37,3 +39,9 @@ Vendors
 
 Webroot
     web根目录
+    
+    
+    
+# nginx 
+
+try_files $uri $uri/ /index.php?$query_string;
