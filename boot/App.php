@@ -1,11 +1,4 @@
 <?php
-/**
- * @package Boot
- * @author Du xin
- */
-namespace Boot;
-
-use Ctrls;
 
 class App
 {
@@ -36,7 +29,7 @@ class App
 
     public static function getInstance()
     {
-        if (! (self::$instance instanceof self)) {
+        if (!(self::$instance instanceof self)) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -94,11 +87,11 @@ class App
      */
     private static function strAddSlashes(&$_value)
     {
-        if (! empty($_value) && is_array($_value)) {
+        if (!empty($_value) && is_array($_value)) {
             foreach ($_value as $_key => $_val) {
                 self::strAddSlashes($_value[$_key]);
             }
-        } else if (! empty($_value)) {
+        } else if (!empty($_value)) {
             $_value = addslashes($_value);
         }
         return;
@@ -121,25 +114,23 @@ class App
 
     public static function parseRouter($swooleRequest = null)
     {
-        if ($swooleRequest) {
-            $url = parse_url($swooleRequest->server['request_uri']);
-        } else {
-            $url = parse_url($_SERVER['REQUEST_URI']);
-        }
+
+        $url = parse_url($_SERVER['REQUEST_URI']);
         $routes = explode('/', $url['path']);
         $parameters = [];
+
         empty($routes[1]) ? $class = 'index' : $class = preg_replace('/.php$/', '', $routes[1]);
-        
-        ! isset($routes[2]) ? $method = 'main' : $method = $routes[2];
-        
+
+        !isset($routes[2]) ? $method = 'main' : $method = $routes[2];
+
         $count = count($routes);
-        
+
         if ($count > 3) {
-            for ($i = 3; $i < $count; $i ++) {
+            for ($i = 3; $i < $count; $i++) {
                 $parameters[] = $routes[$i];
             }
         }
-        
+
         return [
             'class' => ucfirst($class) . 'Ctrl',
             'method' => $method,
@@ -165,20 +156,25 @@ class App
     /**
      * 系统入口程序
      */
-    public function run($webSocketServer = null, $request = null)
+    public function run($resources = null)
     {
+
+        self::init();
+
         self::loadClass();
-        
+
         self::argsAddSlashes();
-        
-        $info = self::parseRouter($request);
+
+        $info = self::parseRouter();
         $class = 'Ctrls\\' . $info['class'];
+
+        if(!empty($resources) && is_array($resources)) {
+            foreach ($resources as $resource) {
+                self::loadResource($resource);
+            }
+        }
         if (method_exists($class, $info['method'])) {
-            $return = call_user_func_array([
-                new $class($webSocketServer, $request),
-                $info['method']
-            ], $info['parameters']);
-            return $return;
+            return  Ioc::make($class, $info['method'], $info['parameters']);
         } else {
             return 'access_deny';
         }

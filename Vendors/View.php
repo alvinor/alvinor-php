@@ -176,7 +176,7 @@ class View
      */
     private function compilePath()
     {
-        return realpath(__DIR__ . '../../' . $this->config['compile_dir']) . '/';
+        return realpath(__DIR__ . '/../' . $this->config['compile_dir']) . '/';
     }
 
     /**

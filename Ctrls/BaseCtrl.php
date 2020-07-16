@@ -3,18 +3,8 @@ namespace Ctrls;
 
 class BaseCtrl
 {
-
-    protected $webSockectServer;
-    protected $webSockectRequest;
-
-    public function __construct($webSocketServer = null, $request = null)
+    public function __construct()
     {
-        if ($request) {
-            $_GET = $request->get;
-            $_POST = $request->post;
-            $this->webSockectServer = $webSocketServer;
-            $this->webSockectRequest = $request;
-        }
     }
 
 }

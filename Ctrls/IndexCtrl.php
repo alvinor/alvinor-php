@@ -1,20 +1,26 @@
 <?php
 namespace Ctrls;
 
+use Models\DemoModel;
+use Services\DemoService;
 use Vendors\View;
 
-class IndexCtrl extends LoginCtrl
+class IndexCtrl extends BaseCtrl
 {
 
-    public function __construct()
+    private static $demoService;
+    private static $demoModel;
+
+    public function __construct(DemoService $demoService, DemoModel $demoModel)
     {
-        parent::__construct();
-        if (! $this->isLogin()) {
-            self::$session->requestUri = $_SERVER['REQUEST_URI'];
-            return $this->toAuth();
-        }
+        self::$demoService = $demoService;
+
     }
-    public function main(){
+
+
+    public function main($name){
+        echo  self::$demoService->age().PHP_EOL;
+        echo self::$demoService->salary($name).PHP_EOL;
         return view('index.main',['title'=>'home']);
     }
 }

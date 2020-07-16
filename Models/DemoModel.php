@@ -8,5 +8,14 @@ class DemoModel extends DB
     {
         parent::__construct();
     }
+
+    public function getSalary($name)
+    {
+        $tmp = [
+          'zhangsan'=>500,
+          'lisi'=>300
+        ];
+        return isset($tmp[$name]) ? $tmp[$name] : rand(600,800);
+    }
     
 }

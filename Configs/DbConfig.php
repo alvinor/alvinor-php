@@ -4,15 +4,15 @@ namespace Configs;
 class DbConfig extends Structure
 {
 
-    public $host = '47.104.7.235';
+    public $host = 'mysql';
 
     public $port = '3306';
 
-    public $libr = 'chushou_com';
+    public $libr = 'dx_325';
 
-    public $user = 'duxin';
+    public $user = 'root';
 
-    public $pass = 'Duxin2017';
+    public $pass = 'root';
 
     public $prefix = 'ims_';
 

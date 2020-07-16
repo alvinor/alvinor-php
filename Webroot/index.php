@@ -7,8 +7,7 @@
  * @author xin du
  * @package webroot
  */
+require_once __DIR__ . '/../boot/Ioc.php';
 require_once __DIR__ . '/../boot/App.php';
-$app = Boot\App::getInstance();
-$app->init();
-$app->loadResource('helpers');
-echo $app->run();
+$resourse = ['helpers'];
+Ioc::make('App', 'run', [$resourse]);
